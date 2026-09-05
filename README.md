@@ -1,6 +1,6 @@
 # Michael Romani Balloon Twisting — Website
 
-A static site (no build step required): Home, Balloon Twisting, 6 neighborhood landing pages, Gallery, Meet Michael, and Contact.
+A static site (no build step required): Home, Balloon Twisting, 6 neighborhood landing pages, a Nearby Suburbs page, Gallery, Meet Michael, and Contact.
 
 Open `index.html` in a browser to preview locally, or deploy the whole `website` folder as-is.
 
@@ -89,18 +89,25 @@ Any static host works. Two easy, free options:
 
 - `index.html` — Home
 - `balloon-twisting.html` — Full balloon twisting services page (event types, FAQ, booking process)
-- `balloon-twisting-chicago-loop.html`, `-lincoln-park.html`, `-lincoln-square.html`, `-edgewater.html`, `-wicker-park.html`, `-old-irving-park.html` — neighborhood-specific landing pages (each has its own H1, meta tags, and FAQ tailored to that area) for local SEO. These are what the "Areas We Serve" pills on the homepage, and the Chicago Areas links in every footer, point to.
+- `balloon-twisting-chicago-loop.html`, `-lincoln-park.html`, `-lincoln-square.html`, `-edgewater.html`, `-wicker-park.html`, `-old-irving-park.html` — neighborhood-specific landing pages (each has its own H1, meta tags, and FAQ tailored to that area) for local SEO.
+- `balloon-twisting-nearby-suburbs.html` — dedicated landing page targeting Chicago suburbs (Evanston, Skokie, Niles, Morton Grove, Park Ridge, Norridge, Harwood Heights, Lincolnwood, Oak Park, Elmwood Park, Forest Park, River Forest) with its own keywords and FAQ.
 - `gallery.html` — Filterable photo gallery with lightbox
 - `meet-michael.html` — About/bio page
 - `contact.html` — Booking form + direct contact info + map
+
+The "Areas We Serve" pills on the homepage, and the Chicago Areas links in every footer, point to all 7 of the location pages above.
+
+## 8. Managing your photos
+
+See `../photo-catalog.html` (one level up, next to the `website` and `Balloon business photos` folders) — it's a browsable page numbering every photo in your `Balloon business photos` folder. Double-click it to open in your browser, then just tell Claude things like "use #14 as the homepage hero" or "delete #9" — no need to describe the photo, just use its number.
 
 Every page links to the others contextually (services ↔ neighborhoods ↔ gallery ↔ contact) to reinforce local SEO relevance for "balloon twisting Chicago" and nearby suburbs.
 
 ---
 
-## 8. What's already built in
+## 9. What's already built in
 
-- **11 pages**: Home, full Balloon Twisting services page, 6 neighborhood landing pages, filterable Gallery with lightbox, Meet Michael, and Contact.
+- **12 pages**: Home, full Balloon Twisting services page, 6 neighborhood landing pages, a Nearby Suburbs page, filterable Gallery with lightbox, Meet Michael, and Contact.
 - **Local SEO**: unique title/meta description/H1 per page, schema.org `LocalBusiness`, `Person`, and `FAQPage` structured data (including neighborhood-specific FAQ entries), `sitemap.xml` + `robots.txt`, contextual internal links between every page and neighborhood.
 - **Elegant, quiet motion**: small scroll-reveal transitions, floating balloon-dog decorations, animated counters, a working gallery lightbox — all vanilla CSS/JS (no framework weight), fully disabled for visitors with `prefers-reduced-motion` turned on.
 - **Mobile-specific design**: a persistent bottom Call / Get a Free Quote bar on mobile (not just a shrunk desktop layout), a dedicated slide-in nav, and layouts that re-flow rather than just scale down.
