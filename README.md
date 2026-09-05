@@ -6,22 +6,21 @@ Open `index.html` in a browser to preview locally, or deploy the whole `website`
 
 ---
 
-## 1. Add your photos (do this first — biggest visual upgrade)
+## 1. Photos — real ones are live ✅
 
-Every photo on the site is wired up already. Drop a file with the **exact name** below into `assets/img/` and it appears automatically — no code changes needed. Until a file exists, a branded placeholder shows in its place, so the site always looks finished.
+Real photos from `Balloon business photos` are now in place across the site:
 
-| File name | Used on | Suggested shot |
+| File name | Used on | Source |
 |---|---|---|
-| `hero-main.jpg` | Home hero | Vertical action shot of Michael twisting a balloon (4:5 crop works best) |
-| `service-twisting.jpg` | Balloon Twisting page(s) | A finished balloon animal/sculpture close-up |
-| `about-portrait.jpg` | Meet Michael | A clean portrait of Michael (square crop) |
-| `about-action-1.jpg` | Meet Michael | Michael performing at an event |
-| `gallery-01.jpg` … `gallery-12.jpg` | Gallery + Home preview | Balloon twisting close-ups, birthday parties, and events in action |
-| `og-image.jpg` | Social share previews (1200×630px) | A bright, recognizable photo — this is what shows when the link is shared on Facebook/Instagram/iMessage |
+| `hero-main.jpg` | Home hero | `IMG_8361.jpeg` (Michael + customer, chalkboard sign) |
+| `service-twisting.jpg` | Balloon Twisting page(s) | `IMG_8358.jpeg` (penguin balloon close-up) |
+| `about-portrait.jpg` | Meet Michael | `IMG_8361.jpeg` (cropped close on Michael) |
+| `gallery-01.jpg` … `gallery-12.jpg` | Gallery + Home preview | a mix of `Kids with balloons.jpg`, `IMG_8325/8326/8334/8352/8354/8357/8358/8994`, `FullSizeRender.jpeg`, `IMG_0595.JPG`, and the `04C6D4F7…` street-setup photo |
+| `og-image.jpg` | Social share previews | `IMG_8361.jpeg`, wide crop |
 
-You mentioned you have many event photos to add — just drop them into `assets/img/` using the names above (add more `gallery-##.jpg` files and copy one of the existing `<button class="gallery-item">` blocks in `gallery.html` if you want more than 12).
+**Want a different photo in any slot, or a different crop?** Open `../photo-catalog.html` (double-click it — no server needed) and tell Claude the photo number plus what to do: "put #14 in the hero instead," "crop #9 tighter on his face," "make gallery-05 landscape instead of square." Claude can crop, rotate, and resize any photo in your `Balloon business photos` folder and drop the result straight into `assets/img/` — you never have to open an image editor yourself.
 
-The **logo** (`assets/img/logo.svg`) and **favicon** (`assets/img/favicon.svg`) are a placeholder twisted-balloon-dog mark. Swap either file for your final logo whenever it's ready — every page references the same two files, so there's nothing else to update.
+The **logo** (`assets/img/logo.svg`) and **favicon** (`assets/img/favicon.svg`) use your real balloon-dog artwork, recolored to the site palette. If you get a new logo design later, just say so and Claude will swap it in — every page references these same two files.
 
 ---
 
@@ -31,22 +30,16 @@ The Contact page form posts to your Formspree endpoint (`https://formspree.io/f/
 
 ---
 
-## 3. Connect your live Google Reviews widget
+## 3. Google Reviews widget — already connected ✅
 
-Per your request, the homepage reviews section is wired up for a **free, auto-updating widget** (via [Elfsight](https://elfsight.com/google-reviews-widget/)) instead of a hand-edited carousel — reviews stay current with zero manual work, and visitors read them right on your site instead of clicking away to Google.
-
-**Setup (about 5 minutes):**
-1. Go to [elfsight.com/google-reviews-widget](https://elfsight.com/google-reviews-widget/) and create a free account.
-2. Connect your Google Business Profile ("Michael Romani Balloon Twisting").
-3. Elfsight gives you a **Widget ID**. Open `index.html`, find this line (search for `WIDGET_ID`):
-   ```html
-   <div class="elfsight-app-WIDGET_ID" data-elfsight-app-lazy></div>
-   ```
-4. Replace `WIDGET_ID` with the ID Elfsight gave you. That's it — reviews will start appearing and update automatically going forward.
-
-Until you connect it, that section of the homepage stays quietly empty rather than showing placeholder or fake reviews.
+The homepage reviews section is live, pulling real 5-star reviews from your connected Google Business Profile via [Elfsight](https://elfsight.com/google-reviews-widget/) — no manual updating needed, reviews refresh automatically as new ones come in.
 
 A small "Leave a Google review →" link stays under the widget for people who want to leave one — everything else on the page keeps visitors on your site rather than sending them off to Google.
+
+If you ever need to swap it for a different Elfsight widget, open `index.html` and replace the ID in this line:
+```html
+<div class="elfsight-app-b2cfdd15-e744-4740-8ab8-2e78be7a57c0" data-elfsight-app-lazy></div>
+```
 
 ---
 

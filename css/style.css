@@ -292,18 +292,20 @@ h3{ font-size: var(--fs-h3); }
 .nav-primary a[aria-current="page"]{ color: var(--color-ink); }
 .nav-primary a[aria-current="page"]::after{ right: 0; background: var(--color-primary); }
 
-.header-actions{ display: flex; align-items: center; gap: var(--space-3); }
+.header-actions{ display: flex; align-items: center; gap: clamp(0.6rem, 0.3rem + 0.6vw, 1rem); }
 .header-call{
   display: none;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   font-family: var(--font-display);
   font-weight: 600;
+  font-size: 0.88rem;
   color: var(--color-ink);
   white-space: nowrap;
   flex-shrink: 0;
+  padding-right: clamp(0.3rem, 0.2rem + 0.4vw, 0.75rem);
 }
-.header-call svg{ width: 20px; height: 20px; color: var(--color-accent); }
+.header-call svg{ width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
 
 .nav-toggle{
   display: inline-flex;
@@ -383,6 +385,8 @@ h3{ font-size: var(--fs-h3); }
   .nav-primary{ display: block; flex: 1 1 auto; }
   .nav-toggle{ display: none; }
   .header-actions .btn-primary{ display: inline-flex; }
+}
+@media (min-width: 1140px){
   .header-call{ display: inline-flex; }
 }
 
@@ -401,9 +405,14 @@ h3{ font-size: var(--fs-h3); }
   animation: balloon-float 7s ease-in-out infinite;
   filter: drop-shadow(0 14px 18px rgba(38,34,49,0.12));
 }
+/* Facing direction is a static scale, independent of the animated
+   translate/rotate below, so a mirrored dog still floats normally.
+   The artwork faces left by default; .face-right mirrors it so
+   dogs placed near the left edge face inward toward the content. */
+.balloon-field .balloon.face-right{ scale: -1 1; }
 @keyframes balloon-float{
-  0%, 100%{ transform: translateY(0) rotate(-3deg); }
-  50%{ transform: translateY(-22px) rotate(3deg); }
+  0%, 100%{ translate: 0 0; rotate: -3deg; }
+  50%{ translate: 0 -22px; rotate: 3deg; }
 }
 @media (prefers-reduced-motion: reduce){
   .balloon-field .balloon{ animation: none; }
@@ -521,7 +530,9 @@ h3{ font-size: var(--fs-h3); }
    =================================================================== */
 .section{ padding-block: var(--space-7); }
 .section-soft{ background: var(--color-bg-soft); }
+.section-white{ background: var(--color-surface); }
 .section-ink{ background: var(--color-ink); color: #fff; }
+.section-ink h1, .section-ink h2, .section-ink h3, .section-ink h4{ color: #fff; }
 .section-ink .section-head p{ color: rgba(255,255,255,0.72); }
 
 .card{
@@ -811,6 +822,19 @@ h3{ font-size: var(--fs-h3); }
 }
 .stat-item span{ font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 700; }
 .section-ink .stat-item strong{ color: var(--color-primary); }
+.stat-item-badge{ display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+.stat-badge{
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-primary-ink);
+  background: var(--color-primary);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  line-height: 1;
+}
 
 /* ===================================================================
    Timeline (Meet Michael)
