@@ -8,15 +8,9 @@ Open `index.html` in a browser to preview locally, or deploy the whole `website`
 
 ## 1. Photos — real ones are live ✅
 
-Real photos from `Balloon business photos` are now in place across the site:
+Real photos from `Edited Website photos` are now in place across the site — hero, About portrait, service shot, the 6 event-type carousel photos (Birthday/School/Block Party/Wedding/Festival/Corporate), all 12 gallery photos, and the social-share image.
 
-| File name | Used on | Source |
-|---|---|---|
-| `hero-main.jpg` | Home hero | `IMG_8361.jpeg` (Michael + customer, chalkboard sign) |
-| `service-twisting.jpg` | Balloon Twisting page(s) | `IMG_8358.jpeg` (penguin balloon close-up) |
-| `about-portrait.jpg` | Meet Michael | `IMG_8361.jpeg` (cropped close on Michael) |
-| `gallery-01.jpg` … `gallery-12.jpg` | Gallery + Home preview | a mix of `Kids with balloons.jpg`, `IMG_8325/8326/8334/8352/8354/8357/8358/8994`, `FullSizeRender.jpeg`, `IMG_0595.JPG`, and the `04C6D4F7…` street-setup photo |
-| `og-image.jpg` | Social share previews | `IMG_8361.jpeg`, wide crop |
+**To swap any photo or change a crop:** open `../photo-catalog.html` (double-click it, no server needed) — every photo in the `Edited Website photos` folder is numbered, and ones already live on the site are marked with a green border and a "Live: filename" label so you can see at a glance what's used where. Just tell Claude the number and what to do.
 
 **Want a different photo in any slot, or a different crop?** Open `../photo-catalog.html` (double-click it — no server needed) and tell Claude the photo number plus what to do: "put #14 in the hero instead," "crop #9 tighter on his face," "make gallery-05 landscape instead of square." Claude can crop, rotate, and resize any photo in your `Balloon business photos` folder and drop the result straight into `assets/img/` — you never have to open an image editor yourself.
 
@@ -40,6 +34,8 @@ If you ever need to swap it for a different Elfsight widget, open `index.html` a
 ```html
 <div class="elfsight-app-b2cfdd15-e744-4740-8ab8-2e78be7a57c0" data-elfsight-app-lazy></div>
 ```
+
+There's also a **second, compact rating badge** (the small "5.0 ★★★★★ · 24 reviews" pill) near the top of the homepage hero, right under the intro paragraph — a quick trust signal before visitors even scroll. That's a separate, smaller Elfsight widget (`elfsight-app-45f7a93c-7951-4cdf-acc9-15373c997760`).
 
 ---
 

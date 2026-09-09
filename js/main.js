@@ -31,6 +31,43 @@
   }
 
   /* ---------------------------------------------------------------
+     Decorative balloon dogs — subtle scroll parallax
+     Each dog keeps its own gentle float (CSS animation on
+     translate/rotate); this adds a slow drift on the whole field as
+     the user scrolls, so the background visibly responds without
+     fighting the per-dog animation (different CSS properties).
+  --------------------------------------------------------------- */
+  var balloonFields = Array.prototype.slice.call(document.querySelectorAll(".balloon-field"));
+  if (balloonFields.length && !reduceMotion.matches) {
+    var visibleFields = new Set();
+    var fieldObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) visibleFields.add(entry.target);
+        else visibleFields.delete(entry.target);
+      });
+    }, { rootMargin: "200px 0px" });
+    balloonFields.forEach(function (el) { fieldObserver.observe(el); });
+
+    var parallaxTicking = false;
+    var updateParallax = function () {
+      parallaxTicking = false;
+      visibleFields.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        var center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        var offset = Math.max(-24, Math.min(24, center * -0.04));
+        el.style.setProperty("--parallax-y", offset.toFixed(1) + "px");
+      });
+    };
+    document.addEventListener("scroll", function () {
+      if (!parallaxTicking) {
+        parallaxTicking = true;
+        requestAnimationFrame(updateParallax);
+      }
+    }, { passive: true });
+    updateParallax();
+  }
+
+  /* ---------------------------------------------------------------
      Mobile nav
   --------------------------------------------------------------- */
   var navToggle = document.querySelector(".nav-toggle");
@@ -150,6 +187,71 @@
       counters.forEach(animateCount);
     }
   }
+
+  /* ---------------------------------------------------------------
+     Event-type carousel — pages of photo cards, auto-advance every
+     4s, pause on hover/focus/hidden-tab/offscreen (same pattern as
+     the reviews carousel below, adapted for whole-page slides).
+  --------------------------------------------------------------- */
+  document.querySelectorAll("[data-event-carousel]").forEach(function (root) {
+    var track = root.querySelector(".event-track");
+    var pages = Array.prototype.slice.call(root.querySelectorAll(".event-page"));
+    var dotsWrap = root.querySelector(".event-dots");
+    if (!track || pages.length < 2) return;
+
+    var index = 0;
+    var timer = null;
+    var onscreen = true;
+    var interval = parseInt(root.getAttribute("data-event-carousel"), 10) || 4000;
+
+    pages.forEach(function (_, i) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.setAttribute("aria-label", "Show event group " + (i + 1) + " of " + pages.length);
+      dot.addEventListener("click", function () { show(i); stop(); start(); });
+      if (dotsWrap) dotsWrap.appendChild(dot);
+    });
+    var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.children) : [];
+
+    function show(i) {
+      index = (i + pages.length) % pages.length;
+      track.style.transform = "translateX(-" + index * 100 + "%)";
+      dots.forEach(function (d, di) { d.setAttribute("aria-current", di === index ? "true" : "false"); });
+    }
+    function next() { show(index + 1); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function start() {
+      stop();
+      if (!reduceMotion.matches && !document.hidden && onscreen) {
+        timer = setInterval(next, interval);
+      }
+    }
+
+    root.addEventListener("focusin", stop);
+    root.addEventListener("pointerenter", stop);
+    root.addEventListener("pointerleave", start);
+    root.addEventListener("focusout", start);
+    document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        onscreen = entries[0].isIntersecting;
+        onscreen ? start() : stop();
+      }, { threshold: 0.2 }).observe(root);
+    }
+
+    var touchStartX = null;
+    track.addEventListener("touchstart", function (e) { touchStartX = e.touches[0].clientX; stop(); }, { passive: true });
+    track.addEventListener("touchend", function (e) {
+      if (touchStartX === null) return;
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : show(index - 1); }
+      touchStartX = null;
+      start();
+    });
+
+    show(0);
+    start();
+  });
 
   /* ---------------------------------------------------------------
      Review / testimonial carousel

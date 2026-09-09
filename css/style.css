@@ -399,10 +399,14 @@ h3{ font-size: var(--fs-h3); }
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  /* Set from JS on scroll — a slow parallax drift, independent of
+     each dog's own float animation below. */
+  transform: translateY(var(--parallax-y, 0px));
+  will-change: transform;
 }
 .balloon-field .balloon{
   position: absolute;
-  animation: balloon-float 7s ease-in-out infinite;
+  animation: balloon-float 9s ease-in-out infinite;
   filter: drop-shadow(0 14px 18px rgba(38,34,49,0.12));
 }
 /* Facing direction is a static scale, independent of the animated
@@ -411,11 +415,12 @@ h3{ font-size: var(--fs-h3); }
    dogs placed near the left edge face inward toward the content. */
 .balloon-field .balloon.face-right{ scale: -1 1; }
 @keyframes balloon-float{
-  0%, 100%{ translate: 0 0; rotate: -3deg; }
-  50%{ translate: 0 -22px; rotate: 3deg; }
+  0%, 100%{ translate: 0 0; rotate: -1.25deg; }
+  50%{ translate: 0 -8px; rotate: 1.25deg; }
 }
 @media (prefers-reduced-motion: reduce){
   .balloon-field .balloon{ animation: none; }
+  .balloon-field{ transform: none; }
 }
 
 /* ===================================================================
@@ -725,6 +730,34 @@ h3{ font-size: var(--fs-h3); }
 .review-summary strong{ font-family: var(--font-display); font-size: 1.05rem; }
 
 /* ===================================================================
+   Event-type carousel (photo cards, auto-advancing pages)
+   =================================================================== */
+.event-carousel{ position: relative; }
+.event-track-wrap{ overflow: hidden; }
+.event-track{
+  display: flex;
+  transition: transform 700ms var(--ease-out);
+}
+.event-page{
+  flex: 0 0 100%;
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 860px){ .event-page{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px){ .event-page{ grid-template-columns: 1fr; } }
+.event-card{ display: flex; flex-direction: column; gap: 0.85rem; }
+.event-card h3{ font-size: 1.1rem; }
+.event-card p{ color: var(--color-ink-soft); font-size: 0.94rem; }
+.event-dots{ display: flex; justify-content: center; gap: 0.5rem; margin-top: var(--space-5); }
+.event-dots button{
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--color-border-strong);
+  transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.event-dots button[aria-current="true"]{ background: var(--color-accent); transform: scale(1.25); }
+
+/* ===================================================================
    Gallery
    =================================================================== */
 .gallery-filters{
@@ -814,15 +847,24 @@ h3{ font-size: var(--fs-h3); }
   text-align: center;
 }
 @media (min-width: 720px){ .stats-row{ grid-template-columns: repeat(4, 1fr); } }
+.stat-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
 .stat-item strong{
-  display: block;
+  display: flex;
+  align-items: center;
+  height: clamp(2rem, 1.7rem + 1vw, 2.6rem);
   font-family: var(--font-display);
   font-size: clamp(2rem, 1.7rem + 1vw, 2.6rem);
+  line-height: 1;
   color: var(--color-primary);
 }
 .stat-item span{ font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 700; }
 .section-ink .stat-item strong{ color: var(--color-primary); }
-.stat-item-badge{ display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
 .stat-badge{
   display: inline-flex;
   align-items: center;
