@@ -197,6 +197,8 @@
     var track = root.querySelector(".event-track");
     var pages = Array.prototype.slice.call(root.querySelectorAll(".event-page"));
     var dotsWrap = root.querySelector(".event-dots");
+    var prevBtn = root.querySelector("[data-event-prev]");
+    var nextBtn = root.querySelector("[data-event-next]");
     if (!track || pages.length < 2) return;
 
     var index = 0;
@@ -226,6 +228,9 @@
         timer = setInterval(next, interval);
       }
     }
+
+    if (prevBtn) prevBtn.addEventListener("click", function () { show(index - 1); stop(); start(); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { next(); stop(); start(); });
 
     root.addEventListener("focusin", stop);
     root.addEventListener("pointerenter", stop);
@@ -326,28 +331,6 @@
   });
 
   /* ---------------------------------------------------------------
-     Gallery filters
-  --------------------------------------------------------------- */
-  var filterBar = document.querySelector("[data-gallery-filters]");
-  if (filterBar) {
-    var items = document.querySelectorAll("[data-gallery-item]");
-    filterBar.querySelectorAll("button").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        filterBar.querySelectorAll("button").forEach(function (b) {
-          b.setAttribute("aria-pressed", "false");
-        });
-        btn.setAttribute("aria-pressed", "true");
-        var filter = btn.getAttribute("data-filter");
-        items.forEach(function (item) {
-          var cat = item.getAttribute("data-category");
-          var match = filter === "all" || cat === filter;
-          item.hidden = !match;
-        });
-      });
-    });
-  }
-
-  /* ---------------------------------------------------------------
      Lightbox
   --------------------------------------------------------------- */
   var lightbox = document.querySelector("[data-lightbox]");
@@ -360,7 +343,7 @@
     var lbNext = lightbox.querySelector(".lightbox-next");
     var galleryItems = Array.prototype.slice.call(document.querySelectorAll("[data-gallery-item]:not([data-gallery-item] [data-gallery-item])"));
     var visibleItems = function () {
-      return galleryItems.filter(function (i) { return !i.hidden; });
+      return galleryItems;
     };
     var current = 0;
     var lastFocused = null;

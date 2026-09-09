@@ -440,7 +440,7 @@ h3{ font-size: var(--fs-h3); }
   align-items: center;
 }
 @media (min-width: 960px){
-  .hero .container.hero-grid{ grid-template-columns: 1.05fr 0.95fr; gap: var(--space-7); }
+  .hero .container.hero-grid{ grid-template-columns: 0.92fr 1.08fr; gap: var(--space-7); }
 }
 .hero-copy h1{ margin-top: var(--space-3); }
 .hero-copy .lead{ margin-top: var(--space-4); max-width: 34rem; }
@@ -465,27 +465,11 @@ h3{ font-size: var(--fs-h3); }
 
 .hero-media{ position: relative; }
 .hero-media .photo-frame{ aspect-ratio: 4/5; border-radius: var(--radius-lg); }
-.hero-media .float-card{
-  position: absolute;
-  bottom: -1.25rem;
-  left: -1.25rem;
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  max-width: 15.5rem;
-}
-.hero-media .float-card .stars{ display: flex; gap: 2px; color: var(--color-primary); }
-.hero-media .float-card .stars svg{ width: 15px; height: 15px; }
-.hero-media .float-card strong{ display: block; font-family: var(--font-display); font-size: 0.95rem; }
-.hero-media .float-card small{ color: var(--color-ink-soft); font-size: 0.8rem; }
 
-@media (max-width: 640px){
-  .hero-media .float-card{ position: static; margin-top: -2.5rem; margin-inline: 1rem; }
-}
+.hero-rating{ display: flex; align-items: center; gap: 0.6rem; }
+.hero-rating .stars{ display: flex; gap: 2px; color: var(--color-primary); }
+.hero-rating .stars svg{ width: 16px; height: 16px; }
+.hero-rating strong{ font-family: var(--font-display); font-size: 0.95rem; }
 
 /* ===================================================================
    Photo placeholder system
@@ -568,7 +552,7 @@ h3{ font-size: var(--fs-h3); }
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 .grid-services.cols-4-row{ grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 1080px){
+@media (max-width: 860px){
   .grid-services.cols-4-row{ grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px){
@@ -598,6 +582,14 @@ h3{ font-size: var(--fs-h3); }
 .service-icon.c-primary{ background: color-mix(in srgb, var(--color-primary) 20%, white); color: var(--color-primary-dark); }
 .service-icon.c-accent{ background: color-mix(in srgb, var(--color-accent) 16%, white); color: var(--color-accent-dark); }
 .service-icon.c-teal{ background: color-mix(in srgb, var(--color-teal) 16%, white); color: var(--color-teal); }
+.service-card .photo-frame{
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-md);
+  margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) 0;
+}
+@supports not (aspect-ratio: 4/3){
+  .service-card .photo-frame{ padding-top: 75%; height: 0; }
+}
 .service-card h3{ font-size: 1.2rem; }
 .service-card p{ color: var(--color-ink-soft); font-size: 0.96rem; }
 .service-card .card-link{
@@ -733,6 +725,11 @@ h3{ font-size: var(--fs-h3); }
    Event-type carousel (photo cards, auto-advancing pages)
    =================================================================== */
 .event-carousel{ position: relative; }
+.event-controls{
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
 .event-track-wrap{ overflow: hidden; }
 .event-track{
   display: flex;
@@ -749,7 +746,7 @@ h3{ font-size: var(--fs-h3); }
 .event-card{ display: flex; flex-direction: column; gap: 0.85rem; }
 .event-card h3{ font-size: 1.1rem; }
 .event-card p{ color: var(--color-ink-soft); font-size: 0.94rem; }
-.event-dots{ display: flex; justify-content: center; gap: 0.5rem; margin-top: var(--space-5); }
+.event-dots{ display: flex; gap: 0.5rem; }
 .event-dots button{
   width: 9px; height: 9px; border-radius: 50%;
   background: var(--color-border-strong);
@@ -760,22 +757,6 @@ h3{ font-size: var(--fs-h3); }
 /* ===================================================================
    Gallery
    =================================================================== */
-.gallery-filters{
-  display: flex; flex-wrap: wrap; gap: 0.6rem;
-  margin-bottom: var(--space-5);
-}
-.gallery-filters button{
-  padding: 0.6rem 1.15rem;
-  border-radius: var(--radius-pill);
-  border: 2px solid var(--color-border-strong);
-  font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
-  color: var(--color-ink-soft);
-  transition: all var(--dur-fast) var(--ease-out);
-}
-.gallery-filters button:hover{ border-color: var(--color-ink); color: var(--color-ink); }
-.gallery-filters button[aria-pressed="true"]{
-  background: var(--color-ink); border-color: var(--color-ink); color: #fff;
-}
 .gallery-grid{
   display: grid;
   gap: var(--space-3);
@@ -1070,7 +1051,6 @@ h3{ font-size: var(--fs-h3); }
   justify-content: space-between;
   gap: var(--space-4);
   position: relative;
-  overflow: hidden;
 }
 .cta-banner h2{ color: #fff; }
 .cta-banner p{ color: rgba(255,255,255,0.88); margin-top: 0.5rem; }
