@@ -35,8 +35,6 @@ If you ever need to swap it for a different Elfsight widget, open `index.html` a
 <div class="elfsight-app-b2cfdd15-e744-4740-8ab8-2e78be7a57c0" data-elfsight-app-lazy></div>
 ```
 
-There's also a **second, compact rating badge** (the small "5.0 ★★★★★ · 24 reviews" pill) near the top of the homepage hero, right under the intro paragraph — a quick trust signal before visitors even scroll. That's a separate, smaller Elfsight widget (`elfsight-app-45f7a93c-7951-4cdf-acc9-15373c997760`).
-
 ---
 
 ## 4. Fix the map to your exact Google Business Profile

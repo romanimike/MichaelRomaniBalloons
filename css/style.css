@@ -359,7 +359,7 @@ h3{ font-size: var(--fs-h3); }
 }
 .mobile-nav-close svg{ width: 20px; height: 20px; }
 .mobile-nav-panel ul{ display: flex; flex-direction: column; gap: 0.2rem; }
-.mobile-nav-panel a{
+.mobile-nav-panel ul a{
   display: block;
   font-family: var(--font-display);
   font-weight: 600;
@@ -368,7 +368,7 @@ h3{ font-size: var(--fs-h3); }
   border-bottom: 1px solid var(--color-border);
   color: var(--color-ink);
 }
-.mobile-nav-panel a[aria-current="page"]{ color: var(--color-accent-dark); }
+.mobile-nav-panel ul a[aria-current="page"]{ color: var(--color-accent-dark); }
 .mobile-nav-cta{ margin-top: auto; display: flex; flex-direction: column; gap: 0.75rem; }
 .mobile-nav-cta .btn{ width: 100%; }
 .mobile-social{ display: flex; gap: 0.75rem; justify-content: center; }
@@ -485,13 +485,6 @@ h3{ font-size: var(--fs-h3); }
 
 @media (max-width: 640px){
   .hero-media .float-card{ position: static; margin-top: -2.5rem; margin-inline: 1rem; }
-}
-
-.review-badge{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--space-4);
 }
 
 /* ===================================================================
@@ -787,6 +780,8 @@ h3{ font-size: var(--fs-h3); }
 }
 @media (min-width: 640px){ .gallery-grid{ grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1024px){ .gallery-grid{ grid-template-columns: repeat(4, 1fr); } }
+.gallery-grid.cols-3-fixed{ grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 640px){ .gallery-grid.cols-3-fixed{ grid-template-columns: repeat(3, 1fr); } }
 .gallery-item{
   display: block;
   width: 100%;
@@ -937,8 +932,10 @@ h3{ font-size: var(--fs-h3); }
   display: grid;
   gap: var(--space-6);
 }
+.contact-grid > .form-card{ order: -1; }
 @media (min-width: 960px){
   .contact-grid{ grid-template-columns: 1fr 1fr; align-items: start; }
+  .contact-grid > .form-card{ order: 0; }
 }
 .contact-info-list{ display: grid; gap: var(--space-3); margin-top: var(--space-5); }
 .contact-info-item{
@@ -1091,6 +1088,7 @@ h3{ font-size: var(--fs-h3); }
 .flow > * + *{ margin-top: var(--space-3); }
 .two-col{ display: grid; gap: var(--space-6); }
 @media (min-width: 880px){ .two-col{ grid-template-columns: 1fr 1fr; align-items: center; } }
+@media (min-width: 880px){ .two-col.photo-wide{ grid-template-columns: 0.85fr 1.15fr; } }
 .two-col.reverse{ direction: rtl; }
 .two-col.reverse > *{ direction: ltr; }
 
