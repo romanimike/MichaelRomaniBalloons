@@ -706,6 +706,11 @@ h3{ font-size: var(--fs-h3); }
 .review-google{ display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: var(--color-ink-faint); }
 .review-google svg{ width: 15px; height: 15px; }
 
+.review-slide.mini-gallery-slide{ padding: 0; background: none; box-shadow: none; }
+.mini-gallery-slide .photo-frame{ width: 100%; max-width: 20rem; }
+.mini-gallery{ max-width: 26rem; margin-inline: auto; }
+.mini-gallery-caption{ font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--color-ink-soft); }
+
 .review-controls{
   display: flex; align-items: center; justify-content: center;
   gap: var(--space-3);
