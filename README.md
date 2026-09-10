@@ -49,9 +49,9 @@ The embedded map on the Contact page currently searches Google Maps by business 
 
 ## 5. Set your real domain name
 
-Every page currently uses a placeholder domain: `https://www.michaelromaniballoontwisting.com/`. Once you've picked and purchased your real domain:
+Every page currently uses a placeholder domain: `https://www.michaelromaniballoons.com/`. Once you've picked and purchased your real domain:
 
-1. Find-and-replace `https://www.michaelromaniballoontwisting.com` with your real domain across all HTML files, `robots.txt`, and `sitemap.xml`.
+1. Find-and-replace `https://www.michaelromaniballoons.com` with your real domain across all HTML files, `robots.txt`, and `sitemap.xml`.
 2. This affects canonical links, Open Graph/social preview tags, and the schema.org structured data used for local SEO.
 
 ---
