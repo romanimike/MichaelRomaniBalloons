@@ -19,15 +19,23 @@
   var header = document.querySelector(".site-header");
   if (header) {
     var lastState = false;
-    var onScroll = function () {
+    var scrollTicking = false;
+    var applyScrollState = function () {
+      scrollTicking = false;
       var scrolled = window.scrollY > 12;
       if (scrolled !== lastState) {
         header.classList.toggle("is-scrolled", scrolled);
         lastState = scrolled;
       }
     };
+    var onScroll = function () {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(applyScrollState);
+      }
+    };
     document.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    applyScrollState();
   }
 
   /* ---------------------------------------------------------------
