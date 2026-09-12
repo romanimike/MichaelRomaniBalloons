@@ -282,6 +282,7 @@
       render();
       lastFocused = document.activeElement;
       lightbox.classList.add("is-open");
+      document.body.classList.add("lightbox-open");
       document.body.style.overflow = "hidden";
       lbClose.focus();
       document.addEventListener("keydown", onKey);
@@ -304,6 +305,7 @@
     }
     function close() {
       lightbox.classList.remove("is-open");
+      document.body.classList.remove("lightbox-open");
       document.body.style.overflow = "";
       document.removeEventListener("keydown", onKey);
       if (lastFocused) lastFocused.focus();
