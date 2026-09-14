@@ -158,6 +158,18 @@
   }
 
   /* ---------------------------------------------------------------
+     Area pills "See more" (mobile only, collapsed via CSS)
+  --------------------------------------------------------------- */
+  var areaToggle = document.querySelector("[data-area-pills-toggle]");
+  if (areaToggle) {
+    var areaPills = document.querySelector("[data-area-pills]");
+    areaToggle.addEventListener("click", function () {
+      var expanded = areaPills.classList.toggle("is-expanded");
+      areaToggle.textContent = expanded ? "See fewer areas" : "See more areas";
+    });
+  }
+
+  /* ---------------------------------------------------------------
      Google Reviews carousel
   --------------------------------------------------------------- */
   var reviewsTrack = document.querySelector("[data-reviews-track]");
@@ -204,45 +216,6 @@
         btn.textContent = expanded ? "Read less" : "Read more";
       });
     });
-  }
-
-  /* ---------------------------------------------------------------
-     Animated counters
-  --------------------------------------------------------------- */
-  var counters = document.querySelectorAll("[data-count-to]");
-  if (counters.length) {
-    var animateCount = function (el) {
-      var target = parseFloat(el.getAttribute("data-count-to"));
-      var suffix = el.getAttribute("data-count-suffix") || "";
-      if (reduceMotion.matches) { el.textContent = target + suffix; return; }
-      var duration = 1400;
-      var start = null;
-      var step = function (ts) {
-        if (start === null) start = ts;
-        var progress = Math.min((ts - start) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var value = Math.round(target * eased);
-        el.textContent = value + suffix;
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    if ("IntersectionObserver" in window) {
-      var cio = new IntersectionObserver(
-        function (entries, obs) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              animateCount(entry.target);
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      counters.forEach(function (el) { cio.observe(el); });
-    } else {
-      counters.forEach(animateCount);
-    }
   }
 
   /* ---------------------------------------------------------------

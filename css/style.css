@@ -775,6 +775,19 @@ h3{ font-size: var(--fs-h3); }
 }
 .area-pills li a:hover{ background: var(--color-primary-ink); color: var(--color-primary); }
 .area-panel .area-note{ margin-top: var(--space-4); font-size: 0.9rem; font-weight: 700; }
+.area-pills-toggle{ display: none; }
+@media (max-width: 640px){
+  .area-pills:not(.is-expanded) li:nth-child(n+5){ display: none; }
+  .area-pills-toggle{
+    display: inline-flex;
+    margin-top: var(--space-4);
+    color: var(--color-primary-ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: underline;
+  }
+}
 
 /* ===================================================================
    Mini gallery (row of photos)
