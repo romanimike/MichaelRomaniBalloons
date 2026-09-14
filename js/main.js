@@ -158,6 +158,55 @@
   }
 
   /* ---------------------------------------------------------------
+     Google Reviews carousel
+  --------------------------------------------------------------- */
+  var reviewsTrack = document.querySelector("[data-reviews-track]");
+  if (reviewsTrack) {
+    var reviewCards = Array.prototype.slice.call(reviewsTrack.querySelectorAll("[data-review-card]"));
+    var prevBtn = document.querySelector("[data-reviews-prev]");
+    var nextBtn = document.querySelector("[data-reviews-next]");
+    var dotButtons = Array.prototype.slice.call(document.querySelectorAll("[data-reviews-dots] button"));
+
+    var trackStep = function () {
+      var gap = parseFloat(getComputedStyle(reviewsTrack).columnGap || getComputedStyle(reviewsTrack).gap || 16);
+      return reviewCards.length ? reviewCards[0].getBoundingClientRect().width + gap : 300;
+    };
+    if (prevBtn) prevBtn.addEventListener("click", function () { reviewsTrack.scrollBy({ left: -trackStep(), behavior: "smooth" }); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { reviewsTrack.scrollBy({ left: trackStep(), behavior: "smooth" }); });
+
+    dotButtons.forEach(function (dot, i) {
+      dot.addEventListener("click", function () {
+        var card = reviewCards[i];
+        if (card) reviewsTrack.scrollTo({ left: card.offsetLeft - reviewsTrack.offsetLeft, behavior: "smooth" });
+      });
+    });
+
+    var dotsTicking = false;
+    var syncDots = function () {
+      dotsTicking = false;
+      var trackLeft = reviewsTrack.getBoundingClientRect().left;
+      var closest = 0, closestDist = Infinity;
+      reviewCards.forEach(function (card, i) {
+        var dist = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+      dotButtons.forEach(function (dot, i) { dot.classList.toggle("is-active", i === closest); });
+    };
+    reviewsTrack.addEventListener("scroll", function () {
+      if (!dotsTicking) { dotsTicking = true; requestAnimationFrame(syncDots); }
+    }, { passive: true });
+
+    Array.prototype.slice.call(document.querySelectorAll("[data-read-more]")).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest("[data-review-card]");
+        var text = card.querySelector("[data-review-text]");
+        var expanded = text.classList.toggle("is-expanded");
+        btn.textContent = expanded ? "Read less" : "Read more";
+      });
+    });
+  }
+
+  /* ---------------------------------------------------------------
      Animated counters
   --------------------------------------------------------------- */
   var counters = document.querySelectorAll("[data-count-to]");
