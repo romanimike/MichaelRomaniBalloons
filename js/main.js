@@ -45,24 +45,22 @@
   --------------------------------------------------------------- */
   var header = document.querySelector(".site-header");
   if (header) {
-    var lastState = false;
-    var scrollTicking = false;
-    var applyScrollState = function () {
-      scrollTicking = false;
-      var scrolled = window.scrollY > 12;
-      if (scrolled !== lastState) {
-        header.classList.toggle("is-scrolled", scrolled);
-        lastState = scrolled;
-      }
-    };
-    var onScroll = function () {
-      if (!scrollTicking) {
-        scrollTicking = true;
-        requestAnimationFrame(applyScrollState);
-      }
-    };
-    document.addEventListener("scroll", onScroll, { passive: true });
-    applyScrollState();
+    if ("IntersectionObserver" in window) {
+      /* A 13px marker at the very top of the page: once it scrolls out of view,
+         the page is scrolled past 12px. No scroll listener and no layout reads,
+         so it can't force a reflow. */
+      var topMarker = document.createElement("div");
+      topMarker.setAttribute("aria-hidden", "true");
+      topMarker.style.cssText = "position:absolute;top:0;left:0;width:1px;height:13px;opacity:0;pointer-events:none;";
+      document.body.appendChild(topMarker);
+      new IntersectionObserver(function (entries) {
+        header.classList.toggle("is-scrolled", !entries[entries.length - 1].isIntersecting);
+      }).observe(topMarker);
+    } else {
+      document.addEventListener("scroll", function () {
+        header.classList.toggle("is-scrolled", window.scrollY > 12);
+      }, { passive: true });
+    }
   }
 
   /* ---------------------------------------------------------------
@@ -220,20 +218,23 @@
       });
     });
 
-    var dotsTicking = false;
-    var syncDots = function () {
-      dotsTicking = false;
-      var trackLeft = reviewsTrack.getBoundingClientRect().left;
-      var closest = 0, closestDist = Infinity;
-      reviewCards.forEach(function (card, i) {
-        var dist = Math.abs(card.getBoundingClientRect().left - trackLeft);
-        if (dist < closestDist) { closestDist = dist; closest = i; }
-      });
-      dotButtons.forEach(function (dot, i) { dot.classList.toggle("is-active", i === closest); });
-    };
-    reviewsTrack.addEventListener("scroll", function () {
-      if (!dotsTicking) { dotsTicking = true; requestAnimationFrame(syncDots); }
-    }, { passive: true });
+    /* The active dot follows the leftmost mostly-visible card. IntersectionObserver
+       reports visibility without any layout reads (no forced reflow). */
+    if ("IntersectionObserver" in window) {
+      var cardRatios = reviewCards.map(function () { return 0; });
+      var cardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          cardRatios[reviewCards.indexOf(entry.target)] = entry.intersectionRatio;
+        });
+        var active = 0;
+        for (var i = 0; i < cardRatios.length; i++) {
+          if (cardRatios[i] >= 0.6) { active = i; break; }
+          if (cardRatios[i] > cardRatios[active]) active = i;
+        }
+        dotButtons.forEach(function (dot, i) { dot.classList.toggle("is-active", i === active); });
+      }, { root: reviewsTrack, threshold: [0, 0.25, 0.6, 0.9] });
+      reviewCards.forEach(function (card) { cardObserver.observe(card); });
+    }
 
     Array.prototype.slice.call(document.querySelectorAll("[data-read-more]")).forEach(function (btn) {
       btn.addEventListener("click", function () {
