@@ -1225,7 +1225,3 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .mobile-nav{ z-index: 200; }
 }
 
-/* Page intro fade */
-body{ animation: page-fade 480ms var(--ease-out); }
-@keyframes page-fade{ from{ opacity: 0; } to{ opacity: 1; } }
-@media (prefers-reduced-motion: reduce){ body{ animation: none; } }
