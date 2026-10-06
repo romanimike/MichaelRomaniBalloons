@@ -7,6 +7,33 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* ---------------------------------------------------------------
+     Analytics events: pushed to dataLayer, read by Google Tag Manager
+  --------------------------------------------------------------- */
+  window.dataLayer = window.dataLayer || [];
+  var trackEvent = function (name, params) {
+    var payload = { event: name };
+    for (var k in params) if (Object.prototype.hasOwnProperty.call(params, k)) payload[k] = params[k];
+    window.dataLayer.push(payload);
+  };
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("a[href]") : null;
+    if (!a) return;
+    var href = a.getAttribute("href") || "";
+    var name = href.indexOf("tel:") === 0 ? "phone_click"
+      : href.indexOf("sms:") === 0 ? "text_click"
+      : href.indexOf("mailto:") === 0 ? "email_click"
+      : (/(^|\/)contact\.html/.test(href) && /\bbtn-primary\b/.test(a.className)) ? "quote_button_click"
+      : "";
+    if (name) {
+      trackEvent(name, {
+        link_url: href,
+        link_text: (a.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60),
+        page_path: location.pathname
+      });
+    }
+  }, true);
+
+  /* ---------------------------------------------------------------
      Footer year
   --------------------------------------------------------------- */
   document.querySelectorAll("[data-year]").forEach(function (el) {
@@ -375,6 +402,8 @@
       e.preventDefault();
       var submitBtn = contactForm.querySelector('[type="submit"]');
       var originalLabel = submitBtn ? submitBtn.textContent : "";
+      var eventTypeSelect = contactForm.querySelector("select");
+      var submittedEventType = eventTypeSelect ? eventTypeSelect.value : "";
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
 
       fetch(contactForm.action, {
@@ -386,6 +415,7 @@
           if (res.ok) {
             statusEl.textContent = "Thanks! Your message is on its way — Michael will get back to you soon.";
             statusEl.className = "form-status success";
+            trackEvent("generate_lead", { form_name: "quote_request", event_type: submittedEventType });
             contactForm.reset();
           } else {
             throw new Error("Submission failed");
