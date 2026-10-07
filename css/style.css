@@ -490,6 +490,15 @@ h3{ font-size: var(--fs-h3); }
 @media (max-width: 640px){
   .hero-media .float-card{ position: static; margin-top: -2.5rem; margin-inline: 1rem; }
 }
+/* Wide screens: the hero photo grows to match the full height of the text beside it */
+@media (min-width: 960px){
+  .hero .container.hero-grid{ align-items: stretch; }
+  .hero .container.hero-grid > .hero-copy{ align-self: center; }
+  .hero-media{ display: flex; min-width: 0; }
+  .hero .container.hero-grid > .hero-copy{ min-width: 0; }
+  .hero-media .photo-frame{ aspect-ratio: auto; flex: 1 1 auto; min-height: 30rem; }
+  .hero-media .photo-frame img{ object-position: 50% 18%; }
+}
 
 /* ===================================================================
    Photo placeholder system
@@ -875,6 +884,12 @@ h3{ font-size: var(--fs-h3); }
 .gallery-item.span-tall .photo-frame{ aspect-ratio: 3/4.4; }
 .gallery-item.span-wide{ grid-column: span 2; }
 .gallery-item.span-wide .photo-frame{ aspect-ratio: 16/9.5; }
+/* Full gallery: photos flow into columns by their natural shape, so there are no empty gaps */
+.gallery-grid.gallery-masonry{ display: block; column-count: 2; column-gap: var(--space-3); }
+@media (min-width: 640px){ .gallery-grid.gallery-masonry{ column-count: 3; } }
+@media (min-width: 1024px){ .gallery-grid.gallery-masonry{ column-count: 4; } }
+.gallery-masonry .gallery-item{ break-inside: avoid; margin-bottom: var(--space-3); }
+.gallery-masonry .gallery-item.span-wide{ grid-column: auto; }
 
 /* Lightbox */
 body.lightbox-open .site-header{ visibility: hidden; }
@@ -929,13 +944,14 @@ body.lightbox-open .site-header{ visibility: hidden; }
 }
 .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover{ background: rgba(255,255,255,0.28); }
 .lightbox-close svg, .lightbox-prev svg, .lightbox-next svg{ width: 20px; height: 20px; }
-.lightbox-close{ top: -0.75rem; right: -0.75rem; }
-.lightbox-prev{ left: -1.25rem; top: 50%; transform: translateY(-50%); }
-.lightbox-next{ right: -1.25rem; top: 50%; transform: translateY(-50%); }
+/* Pinned to the screen edges (not the photo) so the arrows stay put as photo sizes change */
+.lightbox-close, .lightbox-prev, .lightbox-next{ position: fixed; }
+.lightbox-close{ top: 1rem; right: 1rem; }
+.lightbox-prev{ left: 1rem; top: 50%; transform: translateY(-50%); }
+.lightbox-next{ right: 1rem; top: 50%; transform: translateY(-50%); }
 @media (max-width: 640px){
-  .lightbox-close{ top: -3.2rem; right: 0; }
-  .lightbox-prev{ left: 0.25rem; }
-  .lightbox-next{ right: 0.25rem; }
+  .lightbox-prev{ left: 0.5rem; }
+  .lightbox-next{ right: 0.5rem; }
 }
 
 /* ===================================================================
@@ -1231,3 +1247,20 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .mobile-nav{ z-index: 200; }
 }
 
+
+/* Contact hero: small photo always sits to the LEFT of the text (never above it); the text stays centered on the page */
+.contact-hero-grid{
+  display: grid;
+  grid-template-columns: minmax(var(--ch-photo), 1fr) minmax(0, 50rem) minmax(var(--ch-photo), 1fr);
+  --ch-photo: clamp(4.5rem, 12vw, 11rem);
+  align-items: stretch;
+  gap: clamp(0.5rem, 2vw, var(--space-5));
+}
+.contact-hero-grid .contact-hero-photo{ grid-column: 1; width: var(--ch-photo); height: 100%; min-height: 6rem; justify-self: start; border-radius: var(--radius-lg); }
+.contact-hero-grid .contact-hero-text{ grid-column: 2; }
+@media (max-width: 559px){
+  .contact-hero-grid .contact-hero-photo{ height: auto; aspect-ratio: 4/5; align-self: start; }
+}
+.contact-h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, 3.25rem); text-wrap: wrap; }
+.br-wide{ display: none; }
+@media (min-width: 560px){ .br-wide{ display: inline; } }

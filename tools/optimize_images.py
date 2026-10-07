@@ -7,7 +7,7 @@ Turn raw photos into web-ready WebP files.
   python3 tools/optimize_images.py --crop 1:1           # square crops (gallery thumbs)
   python3 tools/optimize_images.py --hero               # print hero <img> (eager + high priority)
 
-For each photo it writes assets/img/<name>-<width>.webp at 400/800/1200/1600px wide
+For each photo it writes assets/img/<name>-<width>.webp at 400/800/1200/1600/2000px wide
 (never upscaled), auto-rotates from the phone's EXIF orientation, converts to sRGB, and
 strips ALL metadata (including GPS location). It then prints a ready-to-paste <img> tag
 with srcset, width/height (prevents layout shift) and lazy loading.
@@ -26,9 +26,9 @@ from PIL import Image, ImageOps
 SITE = Path(__file__).resolve().parent.parent
 RAW_DIR = SITE / "raw-photos"
 OUT_DIR = SITE / "assets" / "img"
-WIDTHS = [400, 800, 1200, 1600]
+WIDTHS = [400, 800, 1200, 1600, 2000]
 EXTS = {".jpg", ".jpeg", ".png", ".heic", ".heif", ".tif", ".tiff", ".webp"}
-QUALITY = 80
+QUALITY = 90  # high quality: never trade away how the photos look
 
 
 def slugify(stem: str) -> str:
@@ -105,7 +105,7 @@ def main():
     ap.add_argument("--crop", help="center crop to a ratio first, e.g. 1:1, 4:3, 4:5")
     ap.add_argument("--focus", default="0.5,0.5",
                     help="crop focus x,y from 0 to 1 (0=left/top, 1=right/bottom); default 0.5,0.5")
-    ap.add_argument("--max-width", type=int, help="largest output width (default 1600)")
+    ap.add_argument("--max-width", type=int, help="largest output width (default 2000)")
     ap.add_argument("--hero", action="store_true", help="snippet loads eagerly with high priority")
     ap.add_argument("--sizes", help="override the sizes= attribute in the printed snippet")
     args = ap.parse_args()
