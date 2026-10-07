@@ -76,7 +76,8 @@ def process(path: Path, name: str, args) -> None:
         im = crop_ratio(im, args.crop, args.focus)
     w0, h0 = im.size
     # every standard width smaller than the photo, plus the photo itself (capped at the max)
-    widths = sorted(set([w for w in WIDTHS if w < w0] + [min(w0, WIDTHS[-1])]))
+    top = min(w0, args.max_width or WIDTHS[-1])
+    widths = sorted(set([w for w in WIDTHS if w < top] + [top]))
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     sizes_written = []
     for w in widths:
@@ -104,6 +105,7 @@ def main():
     ap.add_argument("--crop", help="center crop to a ratio first, e.g. 1:1, 4:3, 4:5")
     ap.add_argument("--focus", default="0.5,0.5",
                     help="crop focus x,y from 0 to 1 (0=left/top, 1=right/bottom); default 0.5,0.5")
+    ap.add_argument("--max-width", type=int, help="largest output width (default 1600)")
     ap.add_argument("--hero", action="store_true", help="snippet loads eagerly with high priority")
     ap.add_argument("--sizes", help="override the sizes= attribute in the printed snippet")
     args = ap.parse_args()
