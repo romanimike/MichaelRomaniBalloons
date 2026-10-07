@@ -16,6 +16,13 @@ Real photos from `Edited Website photos` are now in place across the site — he
 
 The **logo** (`assets/img/logo.svg`) and **favicon** (`assets/img/favicon.svg`) use your real balloon-dog artwork, recolored to the site palette. If you get a new logo design later, just say so and Claude will swap it in — every page references these same two files.
 
+### Adding new photos (raw -> web-ready)
+
+1. Drop the raw photos (JPG, PNG, HEIC from an iPhone, etc.) into `raw-photos/` (this folder is not uploaded to GitHub).
+2. Run `python3 tools/optimize_images.py` (add `--crop 1:1` for square gallery shots, `--hero` for the hero photo, `--name some-name` for a single photo).
+3. It writes 400/800/1200/1600px-wide WebP files into `assets/img/`, fixes phone rotation, and **removes GPS/location data**. It prints a ready-to-paste `<img>` tag for each photo.
+4. Or just tell Claude "new photos are in raw-photos" and it will do the steps, name them, write alt text, and place them on the right pages.
+
 ---
 
 ## 2. Contact form — already connected ✅
