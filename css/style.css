@@ -3,6 +3,12 @@
    Chicago balloon artist & entertainer — marketing site stylesheet
    =================================================================== */
 
+/* Self-hosted fonts (latin subset, variable weight) — no third-party request, no render chain */
+@font-face{ font-family: 'Fredoka'; font-style: normal; font-weight: 500 700; font-display: swap; src: url(../assets/fonts/fredoka-latin.woff2) format('woff2'); }
+@font-face{ font-family: 'Nunito'; font-style: normal; font-weight: 400 800; font-display: swap; src: url(../assets/fonts/nunito-latin.woff2) format('woff2'); }
+@font-face{ font-family: 'Nunito'; font-style: italic; font-weight: 400; font-display: swap; src: url(../assets/fonts/nunito-italic-latin.woff2) format('woff2'); }
+@font-face{ font-family: 'Roboto'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(../assets/fonts/roboto-latin.woff2) format('woff2'); }
+
 :root{
   color-scheme: light;
 
@@ -19,7 +25,7 @@
   --color-primary-ink: #2B1B00;  /* text on primary */
 
   --color-accent: #EB5B45;       /* balloon coral-red */
-  --color-accent-dark: #D2432E;
+  --color-accent-dark: #B13624;
   --color-teal: #2C9C93;         /* balloon teal */
 
   --color-border: #EEE0C4;
@@ -1095,7 +1101,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 .field textarea{ min-height: 130px; resize: vertical; }
-.field-hint{ font-size: 0.8rem; color: var(--color-ink-faint); margin-top: 0.35rem; }
+.field-hint{ font-size: 0.8rem; color: var(--color-ink-soft); margin-top: 0.35rem; }
 .hp-field{ position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .form-status{
@@ -1139,7 +1145,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
 }
 .footer-social a:hover{ background: var(--color-primary); color: var(--color-primary-ink); transform: translateY(-3px); }
 .footer-social svg{ width: 18px; height: 18px; }
-.footer-col h4{ color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); }
+.footer-col h3{ color: #fff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-display); }
 .footer-col ul{ margin-top: var(--space-3); display: grid; gap: 0.65rem; }
 .footer-col a{ font-size: 0.95rem; transition: color var(--dur-fast) var(--ease-out); }
 .footer-col a:hover{ color: var(--color-primary); }
