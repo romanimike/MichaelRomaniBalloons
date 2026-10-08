@@ -719,9 +719,11 @@ h3{ font-size: var(--fs-h3); }
 .grid-services.cols-3-row{ grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 860px){
   .grid-services.cols-3-row{ grid-template-columns: repeat(2, 1fr); }
+  .grid-services.cols-3-row > :last-child:nth-child(odd){ grid-column: 1 / -1; }   /* no empty corner beside the last card */
 }
 @media (max-width: 560px){
   .grid-services.cols-3-row{ grid-template-columns: 1fr; }
+  .grid-services.cols-3-row > :last-child:nth-child(odd){ grid-column: auto; }
 }
 .service-card{
   display: flex;
@@ -1236,7 +1238,12 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .two-col-split.photo-left > :not(.photo-frame) > .tc-body{ grid-column: 2; }
   .two-col-split.photo-right > .photo-frame{ grid-column: 2; }
   .two-col-split.photo-right > :not(.photo-frame) > .flow, .two-col-split.photo-right > :not(.photo-frame) > .tc-body{ grid-column: 1; }
-  .two-col-split > :not(.photo-frame) > .tc-head, .two-col-split > :not(.photo-frame) > .section-head{ margin-bottom: var(--space-4); }
+  .two-col-split > :not(.photo-frame) > .tc-head, .two-col-split > :not(.photo-frame) > .section-head{ margin-bottom: var(--space-4); text-align: center; }   /* heading centered across the full width: no lopsided empty space on its right */
+  .two-col-split > :not(.photo-frame) > .tc-head h1, .two-col-split > :not(.photo-frame) > .tc-head h2, .two-col-split > :not(.photo-frame) > .section-head h2{ text-wrap: balance; }
+  .two-col-split.center-rows > .photo-frame, .two-col-split.center-rows > :not(.photo-frame) > .tc-body{ align-self: center; }
+  /* The checklist drops out of the narrow text column and runs across the full width, items side by side */
+  .two-col-split > :not(.photo-frame) > .tc-list{ grid-column: 1 / -1; grid-row: 3; }
+  .tc-list .check-list{ display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--space-3) var(--space-5); margin-top: var(--space-5); }
 }
 @media (max-width: 600px){
   /* Phones: heading on top, then the photo, then the body text. The text wrapper "dissolves" so its parts can be ordered. */
@@ -1307,7 +1314,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .contact-hero-text, .hero-side-text{ grid-column: 2; grid-row: 1; min-width: 0; text-align: center; }
 .contact-hero-photo, .hero-side-photo{
   grid-row: 1; grid-column: 1;
-  width: var(--hp); height: var(--hp);
+  width: var(--hp); height: var(--hph, var(--hp));
   border-radius: var(--radius-lg);
 }
 .hero-side-grid:not(.is-left){ grid-template-columns: minmax(0, 52rem) var(--hp); }
@@ -1323,9 +1330,18 @@ body.lightbox-open .site-header{ visibility: hidden; }
   }
 }
 /* Mid-size windows: slightly tighter header type so the text block stays close to the photo's height */
-.hero-side-text h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, var(--fs-h1)); }
+.hero-side-text h1, .contact-hero-text h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, var(--fs-h1)); }
 @media (max-width: 1000px){ .hero-side-text .lead, .contact-hero-text .lead{ font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem); line-height: 1.6; } }
-@media (max-width: 600px){ .hero-side-text h1{ font-size: var(--fs-h1); } }
+@media (max-width: 600px){ .hero-side-text h1, .contact-hero-text h1{ font-size: var(--fs-h1); } }
 .contact-h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, 3.25rem); text-wrap: wrap; }
 .br-wide{ display: none; }
 @media (min-width: 560px){ .br-wide{ display: inline; } }
+
+/* "Also Serving" photo: on mid-size windows it grows to the height of the text beside it (no empty bands above and below);
+   on phones it becomes a full-width square. */
+@media (max-width: 900px){
+  .two-col-keep.fill-photo > .photo-frame{ max-width: none !important; width: 100% !important; aspect-ratio: auto !important; align-self: stretch; min-height: 18rem; justify-self: stretch !important; }
+}
+@media (max-width: 600px){
+  .two-col-keep.fill-photo > .photo-frame{ aspect-ratio: 1 / 1 !important; min-height: 0; }
+}

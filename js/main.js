@@ -440,16 +440,19 @@
     var fitHeaderPhoto = function (grid) {
       var text = grid.querySelector(".contact-hero-text, .hero-side-text");
       if (!text) return;
-      if (tablet.matches) { grid.style.removeProperty("--hp"); return; }
+      if (tablet.matches) { grid.style.removeProperty("--hp"); grid.style.removeProperty("--hph"); return; }
       var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
       var gap = parseFloat(getComputedStyle(grid).columnGap) || 24;
-      var cap = Math.max(8 * rem, Math.min(26 * rem, grid.clientWidth * 0.44));
+      var cap = Math.max(8 * rem, Math.min(26 * rem, grid.clientWidth * 0.4));
       var best = null;
       for (var pass = 0; pass < 4; pass++) {
-        var size = Math.round(Math.max(8 * rem, Math.min(text.getBoundingClientRect().height, cap)));
-        if (best !== null && Math.abs(size - best) < 3) break;
-        best = size;
-        grid.style.setProperty("--hp", size + "px");
+        var textH = Math.round(text.getBoundingClientRect().height);
+        var w = Math.round(Math.max(8 * rem, Math.min(textH / 1.1, cap)));   // wide enough to look like a photo, never wider than the cap
+        var h = Math.round(Math.max(w, Math.min(textH, w * 1.3)));           // square when the text is short, up to ~4:5 when it is tall
+        if (best !== null && Math.abs(w + h - best) < 4) break;
+        best = w + h;
+        grid.style.setProperty("--hp", w + "px");
+        grid.style.setProperty("--hph", h + "px");
       }
     };
     var fitAllHeaderPhotos = function () { headerGrids.forEach(fitHeaderPhoto); };
