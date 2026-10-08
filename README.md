@@ -31,16 +31,9 @@ The Contact page form posts to your Formspree endpoint (`https://formspree.io/f/
 
 ---
 
-## 3. Google Reviews widget — already connected ✅
+## 3. Google reviews section — built into the page
 
-The homepage reviews section is live, pulling real 5-star reviews from your connected Google Business Profile via [Elfsight](https://elfsight.com/google-reviews-widget/) — no manual updating needed, reviews refresh automatically as new ones come in.
-
-A small "Leave a Google review →" link stays under the widget for people who want to leave one — everything else on the page keeps visitors on your site rather than sending them off to Google.
-
-If you ever need to swap it for a different Elfsight widget, open `index.html` and replace the ID in this line:
-```html
-<div class="elfsight-app-b2cfdd15-e744-4740-8ab8-2e78be7a57c0" data-elfsight-app-lazy></div>
-```
+The homepage reviews section shows real 5-star reviews from Michael's Google Business Profile. The reviews are written directly into `index.html` (no third-party widget or script), so they load fast and never break. To add or update a review, edit the review cards in the "reviews" section of `index.html`. A small "Leave a Google review" link sits under the reviews for people who want to add one.
 
 ---
 
@@ -108,4 +101,4 @@ Every page links to the others contextually (services ↔ neighborhoods ↔ gall
 - **Fully responsive**: tested from 375px phones up through large desktop.
 - **Accessible**: visible focus states, skip-to-content link, alt text on every image, keyboard-operable gallery/lightbox/menu, labeled form fields.
 - **A restrained, deliberate palette**: cream, charcoal ink, and three balloon colors (gold, coral, teal) — no incidental colors.
-- **No paid dependencies required**: everything runs on plain HTML/CSS/JS. Google Fonts (Fredoka + Nunito) load from Google's CDN; Elfsight's script only loads once you've connected your reviews widget.
+- **No paid dependencies required**: everything runs on plain HTML/CSS/JS. Fonts (Fredoka, Nunito, Roboto) are hosted on the site itself, and the reviews are plain HTML, so there are no third-party widgets besides Google Tag Manager and the embedded Google Map.
