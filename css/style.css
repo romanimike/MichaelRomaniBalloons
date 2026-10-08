@@ -968,27 +968,14 @@ body.lightbox-open .site-header{ visibility: hidden; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.5rem;
-  padding: var(--space-4) var(--space-3);
-  border-radius: var(--radius-md);
-  border: 2px solid rgba(255,255,255,0.14);
 }
-/* Checkerboard: yellow tiles alternate with dark ones, "9+ Years" always top-left.
-   2-up on phones (tiles 1 and 4 yellow), 4-up on wide screens (tiles 1 and 3 yellow). */
-.stat-item:nth-child(1), .stat-item:nth-child(4){ background: var(--color-primary); border-color: var(--color-primary); }
-.section-ink .stat-item:nth-child(1) strong, .section-ink .stat-item:nth-child(4) strong{ color: var(--color-primary-ink); }
-.stat-item:nth-child(1) span, .stat-item:nth-child(4) span{ color: var(--color-primary-ink); }
-.stat-item:nth-child(1) .stat-badge, .stat-item:nth-child(4) .stat-badge{ background: var(--color-primary-ink); color: var(--color-primary); }
-@media (min-width: 720px){
-  .stat-item:nth-child(4){ background: transparent; border-color: rgba(255,255,255,0.14); }
-  .section-ink .stat-item:nth-child(4) strong{ color: var(--color-primary); }
-  .stat-item:nth-child(4) span{ color: rgba(255,255,255,0.75); }
-  .stat-item:nth-child(4) .stat-badge{ background: var(--color-primary); color: var(--color-primary-ink); }
-  .stat-item:nth-child(3){ background: var(--color-primary); border-color: var(--color-primary); }
-  .section-ink .stat-item:nth-child(3) strong{ color: var(--color-primary-ink); }
-  .stat-item:nth-child(3) span{ color: var(--color-primary-ink); }
-  .stat-item:nth-child(3) .stat-badge{ background: var(--color-primary-ink); color: var(--color-primary); }
+/* Checkerboard of the existing yellow pills: 2-up on phones puts the pills on the diagonal
+   (9+ top-left, Fully Insured top-right, < 1 Hr bottom-left, 7+ bottom-right). */
+@media (max-width: 719px){
+  .stat-item:nth-child(3){ order: 4; }
+  .stat-item:nth-child(4){ order: 3; }
 }
 .stat-item strong{
   display: flex;
@@ -1000,7 +987,6 @@ body.lightbox-open .site-header{ visibility: hidden; }
   color: var(--color-primary);
 }
 .stat-item span{ font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 700; }
-.stat-item strong > span:not(.stat-badge){ font-size: inherit; font-weight: inherit; color: inherit; }
 .section-ink .stat-item strong{ color: var(--color-primary); }
 .stat-badge{
   display: inline-flex;
