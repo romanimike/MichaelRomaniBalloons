@@ -436,14 +436,14 @@
   // Header photos: size each photo to the height of the text block beside it (never wider than leaves room for the text)
   var headerGrids = document.querySelectorAll(".contact-hero-grid, .hero-side-grid");
   if (headerGrids.length) {
-    var tablet = window.matchMedia("(max-width: 767px)");
+    var tablet = window.matchMedia("(max-width: 600px)");
     var fitHeaderPhoto = function (grid) {
       var text = grid.querySelector(".contact-hero-text, .hero-side-text");
       if (!text) return;
       if (tablet.matches) { grid.style.removeProperty("--hp"); return; }
       var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
       var gap = parseFloat(getComputedStyle(grid).columnGap) || 24;
-      var cap = Math.max(8 * rem, Math.min(26 * rem, grid.clientWidth * 0.4));
+      var cap = Math.max(8 * rem, Math.min(26 * rem, grid.clientWidth * 0.44));
       var best = null;
       for (var pass = 0; pass < 4; pass++) {
         var size = Math.round(Math.max(8 * rem, Math.min(text.getBoundingClientRect().height, cap)));

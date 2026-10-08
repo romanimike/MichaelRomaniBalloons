@@ -153,13 +153,14 @@ section{ position: relative; }
    Typography helpers
    =================================================================== */
 .eyebrow{
+  font-kerning: none;   /* the display font's tight R/V pair made "SERVICES" look warped */
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent-dark);
   background: color-mix(in srgb, var(--color-accent) 12%, transparent);
@@ -1213,6 +1214,18 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .two-col{ display: grid; gap: var(--space-6); }
 @media (min-width: 880px){ .two-col{ grid-template-columns: 1fr 1fr; align-items: center; } }
 @media (min-width: 880px){ .two-col.photo-wide{ grid-template-columns: 0.85fr 1.15fr; } }
+/* Meet Michael: photo stays beside the text as the window shrinks; on phones (600px and under) it drops BELOW the text */
+.two-col.two-col-keep{ grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(1rem, 3vw, var(--space-6)); }
+.two-col.two-col-keep.photo-wide{ grid-template-columns: 0.85fr 1.15fr; }
+@media (max-width: 600px){
+  /* Phones: heading on top, then the photo, then the body text. The text wrapper "dissolves" so its parts can be ordered. */
+  .two-col.two-col-keep, .two-col.two-col-keep.photo-wide{ grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .two-col-keep > :not(.photo-frame){ display: contents; }
+  .two-col-keep > :not(.photo-frame) > *{ order: 3; }
+  .two-col-keep > :not(.photo-frame) > .eyebrow{ order: 1; justify-self: start; }
+  .two-col-keep > :not(.photo-frame) > h1, .two-col-keep > :not(.photo-frame) > h2, .two-col-keep > :not(.photo-frame) > .section-head{ order: 1; }
+  .two-col.two-col-keep > .photo-frame{ order: 2; margin-block: var(--space-4) var(--space-2); }
+}
 .two-col.reverse{ direction: rtl; }
 .two-col.reverse > *{ direction: ltr; }
 
@@ -1256,7 +1269,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
 
 /* Header photos (Contact, Gallery, and every service page): the header text is centered in the space beside a Michael photo
    at the left or right edge. The photo is sized to match the text block's height (main.js sets --hp to that height).
-   On phones and small tablets the photo drops under the text and scales with the screen, staying small. */
+   On phones (600px and under) the photo drops under the text as a full-width square. */
 .contact-hero-grid, .hero-side-grid{
   --hp: clamp(8rem, 26vw, 22rem);
   display: grid;
@@ -1274,14 +1287,19 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .hero-side-grid:not(.is-left){ grid-template-columns: minmax(0, 52rem) var(--hp); }
 .hero-side-grid:not(.is-left) .hero-side-text{ grid-column: 1; }
 .hero-side-grid:not(.is-left) .hero-side-photo{ grid-column: 2; }
-@media (max-width: 767px){
-  .contact-hero-grid, .hero-side-grid, .hero-side-grid:not(.is-left){ grid-template-columns: minmax(0, 1fr); justify-items: center; }
+@media (max-width: 600px){
+  .contact-hero-grid, .hero-side-grid, .hero-side-grid:not(.is-left){ grid-template-columns: minmax(0, 1fr); justify-items: stretch; gap: var(--space-5); }
   .contact-hero-text, .hero-side-text, .hero-side-grid:not(.is-left) .hero-side-text{ grid-column: 1; grid-row: 1; }
+  /* Phones: the photo drops under the text as a full-width square */
   .contact-hero-photo, .hero-side-photo, .hero-side-grid:not(.is-left) .hero-side-photo{
     grid-column: 1; grid-row: 2;
-    width: clamp(7.5rem, 30vw, 13rem); height: clamp(7.5rem, 30vw, 13rem);
+    width: 100%; height: auto; aspect-ratio: 1 / 1;
   }
 }
+/* Mid-size windows: slightly tighter header type so the text block stays close to the photo's height */
+.hero-side-text h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, var(--fs-h1)); }
+@media (max-width: 1000px){ .hero-side-text .lead, .contact-hero-text .lead{ font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.2rem); line-height: 1.6; } }
+@media (max-width: 600px){ .hero-side-text h1{ font-size: var(--fs-h1); } }
 .contact-h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, 3.25rem); text-wrap: wrap; }
 .br-wide{ display: none; }
 @media (min-width: 560px){ .br-wide{ display: inline; } }
