@@ -968,8 +968,27 @@ body.lightbox-open .site-header{ visibility: hidden; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.5rem;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255,255,255,0.14);
+}
+/* Checkerboard: yellow tiles alternate with dark ones, "9+ Years" always top-left.
+   2-up on phones (tiles 1 and 4 yellow), 4-up on wide screens (tiles 1 and 3 yellow). */
+.stat-item:nth-child(1), .stat-item:nth-child(4){ background: var(--color-primary); border-color: var(--color-primary); }
+.section-ink .stat-item:nth-child(1) strong, .section-ink .stat-item:nth-child(4) strong{ color: var(--color-primary-ink); }
+.stat-item:nth-child(1) span, .stat-item:nth-child(4) span{ color: var(--color-primary-ink); }
+.stat-item:nth-child(1) .stat-badge, .stat-item:nth-child(4) .stat-badge{ background: var(--color-primary-ink); color: var(--color-primary); }
+@media (min-width: 720px){
+  .stat-item:nth-child(4){ background: transparent; border-color: rgba(255,255,255,0.14); }
+  .section-ink .stat-item:nth-child(4) strong{ color: var(--color-primary); }
+  .stat-item:nth-child(4) span{ color: rgba(255,255,255,0.75); }
+  .stat-item:nth-child(4) .stat-badge{ background: var(--color-primary); color: var(--color-primary-ink); }
+  .stat-item:nth-child(3){ background: var(--color-primary); border-color: var(--color-primary); }
+  .section-ink .stat-item:nth-child(3) strong{ color: var(--color-primary-ink); }
+  .stat-item:nth-child(3) span{ color: var(--color-primary-ink); }
+  .stat-item:nth-child(3) .stat-badge{ background: var(--color-primary-ink); color: var(--color-primary); }
 }
 .stat-item strong{
   display: flex;
@@ -981,6 +1000,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
   color: var(--color-primary);
 }
 .stat-item span{ font-size: 0.9rem; color: rgba(255,255,255,0.75); font-weight: 700; }
+.stat-item strong > span:not(.stat-badge){ font-size: inherit; font-weight: inherit; color: inherit; }
 .section-ink .stat-item strong{ color: var(--color-primary); }
 .stat-badge{
   display: inline-flex;
@@ -1252,15 +1272,30 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .contact-hero-grid{
   display: grid;
   grid-template-columns: minmax(var(--ch-photo), 1fr) minmax(0, 50rem) minmax(var(--ch-photo), 1fr);
-  --ch-photo: clamp(4.5rem, 12vw, 11rem);
+  --ch-photo: clamp(5.5rem, 16vw, 15rem);
   align-items: stretch;
   gap: clamp(0.5rem, 2vw, var(--space-5));
 }
 .contact-hero-grid .contact-hero-photo{ grid-column: 1; width: var(--ch-photo); height: 100%; min-height: 6rem; justify-self: start; border-radius: var(--radius-lg); }
 .contact-hero-grid .contact-hero-text{ grid-column: 2; }
 @media (max-width: 559px){
-  .contact-hero-grid .contact-hero-photo{ height: auto; aspect-ratio: 4/5; align-self: start; }
+  .contact-hero-grid .contact-hero-photo{ height: auto; aspect-ratio: 1/1; align-self: start; }
 }
 .contact-h1{ font-size: clamp(1.7rem, 3.4vw + 0.5rem, 3.25rem); text-wrap: wrap; }
 .br-wide{ display: none; }
 @media (min-width: 560px){ .br-wide{ display: inline; } }
+
+/* Hero header with a small Michael photo on the left or right margin (same size logic as the Contact header) */
+.hero-side-grid{
+  --ch-photo: clamp(5.5rem, 16vw, 15rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--ch-photo);
+  align-items: stretch;
+  gap: clamp(0.75rem, 3vw, var(--space-6));
+}
+.hero-side-grid.is-left{ grid-template-columns: var(--ch-photo) minmax(0, 1fr); }
+.hero-side-text{ align-self: center; min-width: 0; }
+.hero-side-grid .hero-side-photo{ height: 100%; min-height: 6rem; border-radius: var(--radius-lg); }
+@media (max-width: 559px){
+  .hero-side-grid .hero-side-photo{ height: auto; aspect-ratio: 1/1; align-self: start; }
+}
