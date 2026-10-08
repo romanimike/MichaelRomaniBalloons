@@ -1350,3 +1350,12 @@ body.lightbox-open .site-header{ visibility: hidden; }
 @media (min-width: 901px){
   .two-col-split.center-rows > .photo-frame{ max-width: 30rem; justify-self: center; width: 100%; }
 }
+
+/* Privacy policy page */
+.legal h2{ font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); margin-top: var(--space-6); }
+.legal h2:first-child{ margin-top: 0; }
+.legal p, .legal ul{ margin-top: var(--space-3); color: var(--color-ink-soft); }
+.legal ul{ list-style: disc; padding-left: 1.25rem; }
+.legal li + li{ margin-top: 0.4rem; }
+.legal a{ color: var(--color-accent-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.footer-bottom a{ color: inherit; text-decoration: underline; text-underline-offset: 2px; }
