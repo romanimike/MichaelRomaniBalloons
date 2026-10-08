@@ -1258,7 +1258,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
    The photo keeps a fixed shape and a minimum width (never a thin sliver); on narrower windows it drops
    under the text as a small photo instead. */
 .contact-hero-grid, .hero-side-grid{
-  --ch-photo: clamp(10rem, 16vw, 15rem);
+  --ch-photo: clamp(7rem, 16vw, 15rem);
   display: grid;
   align-items: center;
   gap: clamp(1rem, 3vw, var(--space-6));
@@ -1269,8 +1269,8 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .hero-side-grid{ grid-template-columns: minmax(0, 1fr) var(--ch-photo); }
 .hero-side-grid.is-left{ grid-template-columns: var(--ch-photo) minmax(0, 1fr); }
 .hero-side-text{ min-width: 0; }
-.contact-hero-photo, .hero-side-photo{ width: var(--ch-photo); aspect-ratio: 1 / 1.1; height: auto; border-radius: var(--radius-lg); }
-@media (max-width: 899px){
+.contact-hero-photo, .hero-side-photo{ width: var(--ch-photo); aspect-ratio: 1 / 1; height: auto; border-radius: var(--radius-lg); }
+@media (max-width: 599px){
   .contact-hero-grid, .hero-side-grid, .hero-side-grid.is-left{ grid-template-columns: minmax(0, 1fr); }
   .contact-hero-grid .contact-hero-text{ grid-column: 1; grid-row: 1; }
   .contact-hero-grid .contact-hero-photo{ grid-column: 1; grid-row: 2; justify-self: center; }
