@@ -1345,3 +1345,8 @@ body.lightbox-open .site-header{ visibility: hidden; }
 @media (max-width: 600px){
   .two-col-keep.fill-photo > .photo-frame{ aspect-ratio: 1 / 1 !important; min-height: 0; }
 }
+
+/* Michael's Setup: on wide screens keep the photo from towering over its short text */
+@media (min-width: 901px){
+  .two-col-split.center-rows > .photo-frame{ max-width: 30rem; justify-self: center; width: 100%; }
+}
