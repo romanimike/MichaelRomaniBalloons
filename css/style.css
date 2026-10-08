@@ -1225,6 +1225,9 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .two-col-keep > :not(.photo-frame) > .eyebrow{ order: 1; justify-self: start; }
   .two-col-keep > :not(.photo-frame) > h1, .two-col-keep > :not(.photo-frame) > h2, .two-col-keep > :not(.photo-frame) > .section-head{ order: 1; }
   .two-col.two-col-keep > .photo-frame{ order: 2; margin-block: var(--space-4) var(--space-2); }
+  /* "Michael's Story" only: less space between the heading and the photo */
+  .two-col-keep.tight-photo > :not(.photo-frame) > .section-head{ margin-bottom: 0; }
+  .two-col.two-col-keep.tight-photo > .photo-frame{ margin-top: var(--space-3); }
 }
 .two-col.reverse{ direction: rtl; }
 .two-col.reverse > *{ direction: ltr; }
