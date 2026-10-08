@@ -266,9 +266,18 @@ h3{ font-size: var(--fs-h3); }
 .brand-mark{ width: 44px; height: 44px; flex-shrink: 0; }
 .brand-text{ display: flex; flex-direction: column; line-height: 1.15; white-space: nowrap; }
 .brand-text .sub{ font-family: var(--font-body); font-weight: 700; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-dark); }
+/* Header brand: the full tagline shows on wide screens; while the menu bar is squeezed (960-1220px) only the name shows;
+   once the menu collapses into the dropdown (under 960px) "Balloon Twisting" fades in under the name. */
 @media (max-width: 1220px){
   .brand-text .sub{ display: none; }
 }
+@keyframes brand-sub-in{ from{ opacity: 0; } to{ opacity: 1; } }
+@media (max-width: 959px){
+  .brand-text .sub{ display: block; animation: brand-sub-in 0.45s ease both; }
+  .brand-text .sub .sub-chicago{ display: none; }
+}
+@media (prefers-reduced-motion: reduce){ .brand-text .sub{ animation: none; } }
+.mobile-nav-top .brand-text{ white-space: normal; }
 
 .nav-primary{ display: none; min-width: 0; }
 .nav-primary ul{ display: flex; align-items: center; justify-content: center; gap: clamp(1rem, 0.3rem + 1.6vw, 2rem); }
@@ -1217,17 +1226,31 @@ body.lightbox-open .site-header{ visibility: hidden; }
 /* Meet Michael: photo stays beside the text as the window shrinks; on phones (600px and under) it drops BELOW the text */
 .two-col.two-col-keep{ grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(1rem, 3vw, var(--space-6)); }
 .two-col.two-col-keep.photo-wide{ grid-template-columns: 0.85fr 1.15fr; }
+/* Mid-size windows (601-900px): the heading spans the full width on top; only the body text sits beside the photo */
+@media (min-width: 601px) and (max-width: 900px){
+  .two-col-split > :not(.photo-frame){ display: contents; }
+  .two-col-split > .photo-frame{ grid-row: 2; align-self: start; }
+  .two-col-split > :not(.photo-frame) > .tc-head, .two-col-split > :not(.photo-frame) > .section-head{ grid-column: 1 / -1; grid-row: 1; }
+  .two-col-split > :not(.photo-frame) > .tc-body, .two-col-split > :not(.photo-frame) > .flow{ grid-row: 2; align-self: start; }
+  .two-col-split.photo-left > .photo-frame{ grid-column: 1; }
+  .two-col-split.photo-left > :not(.photo-frame) > .tc-body{ grid-column: 2; }
+  .two-col-split.photo-right > .photo-frame{ grid-column: 2; }
+  .two-col-split.photo-right > :not(.photo-frame) > .flow, .two-col-split.photo-right > :not(.photo-frame) > .tc-body{ grid-column: 1; }
+  .two-col-split > :not(.photo-frame) > .tc-head, .two-col-split > :not(.photo-frame) > .section-head{ margin-bottom: var(--space-4); }
+}
 @media (max-width: 600px){
   /* Phones: heading on top, then the photo, then the body text. The text wrapper "dissolves" so its parts can be ordered. */
-  .two-col.two-col-keep, .two-col.two-col-keep.photo-wide{ grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .two-col-keep > :not(.photo-frame){ display: contents; }
-  .two-col-keep > :not(.photo-frame) > *{ order: 3; }
-  .two-col-keep > :not(.photo-frame) > .eyebrow{ order: 1; justify-self: start; }
-  .two-col-keep > :not(.photo-frame) > h1, .two-col-keep > :not(.photo-frame) > h2, .two-col-keep > :not(.photo-frame) > .section-head{ order: 1; }
-  .two-col.two-col-keep > .photo-frame{ order: 2; margin-block: var(--space-4) var(--space-2); }
+  .two-col.two-col-keep, .two-col.two-col-keep.photo-wide{ grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .two-col.two-col-split{ gap: 0; }
+  .two-col-split > :not(.photo-frame){ display: contents; }
+  .two-col-split > :not(.photo-frame) > *{ order: 3; }
+  .two-col-split > :not(.photo-frame) > .eyebrow{ order: 1; justify-self: start; }
+  .two-col-split > :not(.photo-frame) > .tc-head{ order: 1; }
+  .two-col-split > :not(.photo-frame) > h1, .two-col-split > :not(.photo-frame) > h2, .two-col-split > :not(.photo-frame) > .section-head{ order: 1; }
+  .two-col.two-col-split > .photo-frame{ order: 2; margin-block: var(--space-4) var(--space-2); }
   /* "Michael's Story" only: less space between the heading and the photo */
-  .two-col-keep.tight-photo > :not(.photo-frame) > .section-head{ margin-bottom: 0; }
-  .two-col.two-col-keep.tight-photo > .photo-frame{ margin-top: var(--space-3); }
+  .two-col-split.tight-photo > :not(.photo-frame) > .section-head{ margin-bottom: 0; }
+  .two-col.two-col-split.tight-photo > .photo-frame{ margin-top: var(--space-2); }
 }
 .two-col.reverse{ direction: rtl; }
 .two-col.reverse > *{ direction: ltr; }
