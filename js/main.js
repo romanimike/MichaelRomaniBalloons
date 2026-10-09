@@ -7,6 +7,57 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* ---------------------------------------------------------------
+     Google Ads click IDs (gclid / gbraid / wbraid): saved in the visitor's own browser for up to 90 days when they
+     arrive from an ad, then added to the quote form so each lead email carries the click ID (used later to upload
+     booked events as offline conversions). Stored first-party only; nothing is sent to Analytics or Ads from here.
+  --------------------------------------------------------------- */
+  var CLICK_KEYS = ["gclid", "gbraid", "wbraid"];
+  var CLICK_STORE = "ad_click_ids";
+  var CLICK_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+  var readClickStore = function () {
+    var raw = null;
+    try { raw = window.localStorage.getItem(CLICK_STORE); } catch (e) {}
+    if (!raw) {
+      var m = document.cookie.match(new RegExp("(?:^|; )" + CLICK_STORE + "=([^;]*)"));
+      if (m) { try { raw = decodeURIComponent(m[1]); } catch (e) {} }
+    }
+    if (!raw) return {};
+    try {
+      var saved = JSON.parse(raw);
+      if (!saved || !saved.t || Date.now() - saved.t > CLICK_TTL_MS) return {};
+      return saved.v || {};
+    } catch (e) { return {}; }
+  };
+  var writeClickStore = function (values) {
+    var payload = JSON.stringify({ t: Date.now(), v: values });
+    var stored = false;
+    try { window.localStorage.setItem(CLICK_STORE, payload); stored = true; } catch (e) {}
+    if (!stored) {
+      document.cookie = CLICK_STORE + "=" + encodeURIComponent(payload) + "; max-age=" + Math.floor(CLICK_TTL_MS / 1000) + "; path=/; SameSite=Lax" + (location.protocol === "https:" ? "; Secure" : "");
+    }
+  };
+  (function captureClickIds() {
+    var found = {}, any = false;
+    try {
+      var params = new URLSearchParams(window.location.search);
+      CLICK_KEYS.forEach(function (k) {
+        var v = params.get(k);
+        if (v && /^[\w\-.]{3,300}$/.test(v)) { found[k] = v; any = true; }
+      });
+    } catch (e) {}
+    if (any) writeClickStore(found);   // a newer ad click replaces the older one
+  })();
+  var fillClickIdFields = function (form) {
+    var saved = readClickStore();
+    CLICK_KEYS.forEach(function (k) {
+      var input = form.querySelector('input[name="' + k + '"]');
+      if (!input) return;
+      input.value = saved[k] || "";
+      input.disabled = !input.value;   // disabled fields are not submitted, so the email only shows an ID when there is one
+    });
+  };
+
+  /* ---------------------------------------------------------------
      Analytics events: pushed to dataLayer, read by Google Tag Manager
   --------------------------------------------------------------- */
   window.dataLayer = window.dataLayer || [];
@@ -396,6 +447,7 @@
   var contactForm = document.querySelector("[data-contact-form]");
   if (contactForm) {
     var statusEl = contactForm.querySelector(".form-status");
+    fillClickIdFields(contactForm);
     contactForm.addEventListener("submit", function (e) {
       var honeypot = contactForm.querySelector('[name="_gotcha"]');
       if (honeypot && honeypot.value) { e.preventDefault(); return; }
@@ -406,6 +458,7 @@
       var eventTypeSelect = contactForm.querySelector("select");
       var submittedEventType = eventTypeSelect ? eventTypeSelect.value : "";
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
+      fillClickIdFields(contactForm);
 
       fetch(contactForm.action, {
         method: "POST",
