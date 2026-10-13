@@ -1359,3 +1359,14 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .legal li + li{ margin-top: 0.4rem; }
 .legal a{ color: var(--color-accent-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 .footer-bottom a{ color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Homepage hero on phones and tablets (single column): heading, then the photo, then the intro text and buttons,
+   so the photo is visible near the top instead of far below the buttons. */
+@media (max-width: 959px){
+  .hero .container.hero-grid{ gap: 0; }
+  .hero-grid > .hero-copy{ display: contents; }
+  .hero-grid > .hero-copy > *{ order: 3; }
+  .hero-grid > .hero-copy > .eyebrow{ order: 1; justify-self: start; }
+  .hero-grid > .hero-copy > h1{ order: 1; }
+  .hero-grid > .hero-media{ order: 2; width: 100%; max-width: 30rem; justify-self: center; margin: var(--space-4) 0 var(--space-3); }
+}
