@@ -1368,5 +1368,7 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .hero-grid > .hero-copy > *{ order: 3; }
   .hero-grid > .hero-copy > .eyebrow{ order: 1; justify-self: start; }
   .hero-grid > .hero-copy > h1{ order: 1; }
-  .hero-grid > .hero-media{ order: 2; width: 100%; max-width: 30rem; justify-self: center; margin: var(--space-4) 0 var(--space-3); }
+  .hero-grid > .hero-media{ order: 2; width: 100%; max-width: none; justify-self: stretch; margin: var(--space-4) 0 var(--space-3); }
+  /* full content width; on wide tablets the height is capped so it never gets taller than about a screen and a quarter */
+  .hero-grid > .hero-media .photo-frame{ width: 100%; max-height: min(120vh, 60rem); }
 }
