@@ -1371,4 +1371,5 @@ body.lightbox-open .site-header{ visibility: hidden; }
   .hero-grid > .hero-media{ order: 2; width: 100%; max-width: none; justify-self: stretch; margin: var(--space-4) 0 var(--space-3); }
   /* full content width; on wide tablets the height is capped so it never gets taller than about a screen and a quarter */
   .hero-grid > .hero-media .photo-frame{ width: 100%; max-height: min(120vh, 60rem); }
+  .hero-grid > .hero-media .photo-frame img{ object-position: 50% 0%; }   /* if the frame is shorter than the photo, trim the bottom, never the top of the head */
 }
