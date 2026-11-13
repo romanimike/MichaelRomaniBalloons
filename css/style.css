@@ -1378,3 +1378,14 @@ body.lightbox-open .site-header{ visibility: hidden; }
 .faq-item summary h3{ font: inherit; letter-spacing: inherit; color: inherit; margin: 0; line-height: inherit; }
 .updated-note{ text-align: center; margin-top: var(--space-5); font-size: 0.85rem; color: var(--color-ink-soft); }
 .field-hint a{ color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Static Google review cards on the services and location pages */
+.page-reviews{
+  --g-blue: #1A73E8; --g-star: #FBBC04; --g-card-bg: #F1F3F4; --g-text: #202124; --g-text-soft: #5F6368;
+  font-family: 'Roboto', var(--font-body), sans-serif;
+  display: grid; gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  max-width: 60rem; margin-inline: auto;
+}
+.page-reviews .google-review-card{ flex: none; }
+.page-reviews .google-review-card p{ display: block; -webkit-line-clamp: unset; overflow: visible; }
