@@ -70,6 +70,12 @@ Any static host works. Two easy, free options:
 2. In the repo's Settings → Pages, set the source to the `main` branch, root folder.
 3. Connect your custom domain under the same Pages settings.
 
+**Release routine for this site (hosted on Sevalla, DNS at Porkbun, Cloudflare in front):**
+1. Commit, tag `v2.NN`, push `main` and the tag. When `css/style.css` or `js/main.js` change, bump the `?v=` on their links in every HTML page.
+2. Michael presses **Deploy** in Sevalla and purges the Cloudflare cache. Pushing to GitHub does not deploy by itself.
+3. Verify with `curl` that the live apex serves the new `style.css?v=` value.
+4. After the deploy, run `python3 tools/indexnow.py` to tell Bing which pages changed (`--all` for every URL, `--dry-run` to preview). The IndexNow key file in the site root (`<key>.txt`) is public by design and must stay in place.
+
 ---
 
 ## 7. Site structure
@@ -77,7 +83,7 @@ Any static host works. Two easy, free options:
 - `index.html` — Home
 - `balloon-twisting.html` — Full balloon twisting services page (event types, FAQ, booking process)
 - `balloon-twisting-chicago-loop.html`, `-lincoln-park.html`, `-lincoln-square.html`, `-edgewater.html`, `-wicker-park.html`, `-old-irving-park.html` — neighborhood-specific landing pages (each has its own H1, meta tags, and FAQ tailored to that area) for local SEO.
-- `balloon-twisting-nearby-suburbs.html` — dedicated landing page targeting Chicago suburbs (Evanston, Skokie, Niles, Morton Grove, Park Ridge, Norridge, Harwood Heights, Lincolnwood, Oak Park, Elmwood Park, Forest Park, River Forest) with its own keywords and FAQ.
+- `balloon-twisting-nearby-suburbs.html` — dedicated landing page targeting Chicago suburbs (Skokie, Glenview, Wilmette, Northbrook, Morton Grove, Winnetka) with its own keywords and FAQ.
 - `gallery.html` — Photo gallery with lightbox
 - `meet-michael.html` — About/bio page
 - `contact.html` — Booking form + direct contact info + map
