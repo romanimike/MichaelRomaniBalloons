@@ -520,4 +520,20 @@
     window.addEventListener("load", queueFit);
     queueFit();
   }
+
+  // Opened with a #hash (e.g. contact.html#quote-form)? The header photo and fonts settle after the browser's first jump,
+  // which can leave the target at the wrong height. Re-align once the layout is stable, unless the visitor already scrolled.
+  if (window.location.hash.length > 1) {
+    var hashTarget = null;
+    try { hashTarget = document.getElementById(decodeURIComponent(window.location.hash.slice(1))); } catch (e) {}
+    if (hashTarget) {
+      var visitorScrolled = false;
+      ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+        window.addEventListener(ev, function () { visitorScrolled = true; }, { once: true, passive: true });
+      });
+      var realign = function () { if (!visitorScrolled) hashTarget.scrollIntoView({ behavior: "auto", block: "start" }); };
+      window.addEventListener("load", function () { setTimeout(realign, 60); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(realign, 60); });
+    }
+  }
 })();
