@@ -1389,3 +1389,28 @@ body.lightbox-open .site-header{ visibility: hidden; }
 }
 .page-reviews .google-review-card{ flex: none; }
 .page-reviews .google-review-card p{ display: block; -webkit-line-clamp: unset; overflow: visible; }
+
+/* ---- Mobile landing improvements (Google Ads traffic is ~95% phones) ---- */
+#quote-form{ scroll-margin-top: 5.5rem; }
+.hero-trust{ display: none; }
+@media (max-width: 959px){
+  .hero-grid > .hero-copy > .hero-trust{ order: 1; }
+  .hero-trust{ display: block; margin: var(--space-2) 0 0; font-size: clamp(0.8rem, 3.6vw, 0.95rem); white-space: nowrap; color: var(--color-ink-soft); }
+  .hero-trust strong{ color: var(--color-ink); }
+  .hero-trust-stars{ color: var(--color-primary-dark); letter-spacing: 0.08em; }
+  /* the star card sits directly under the photo instead of overlapping it */
+  .hero-media .float-card{ position: static; margin: var(--space-3) 0 0; max-width: none; }
+  /* sticky bar: Call, Text and Get a Free Quote */
+  .mobile-cta-bar .btn{ padding-inline: 0.6rem; font-size: 0.88rem; gap: 0.35rem; }
+  .mobile-cta-bar .btn-outline{ flex: 1 1 0; }
+  .mobile-cta-bar .btn-primary{ flex: 1.7 1 0; }
+  .mobile-cta-bar .btn svg{ width: 16px; height: 16px; flex-shrink: 0; }
+}
+.contact-photo-mobile{ display: none; }
+@media (max-width: 600px){
+  .contact-hero-photo{ display: none; }
+  .contact-hero-grid{ gap: 0; }
+  .contact-grid > .form-card{ order: -2; }
+  .contact-photo-mobile{ display: block; order: -1; aspect-ratio: 1 / 1; }
+  .contact-hero-text .lead{ margin-top: var(--space-2); }
+}
